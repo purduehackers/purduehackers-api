@@ -1,11 +1,17 @@
 import express from "express";
-import { eventTable, eventBase } from '../db/events'
 import { wishlistTable, wishlistBase } from '../db/wishlist'
+import logger from "../middleware/logger";
 
 const app = express();
 const port = 8080;
 
+app.use(logger)
+
 app.get("/", ( req, res ) => {
+    res.send( "Hello world! hi" );
+} );
+
+app.get("/hello", ( req, res ) => {
     res.send( "Hello world!" );
 } );
 
