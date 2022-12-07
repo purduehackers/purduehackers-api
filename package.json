@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/purduehackers/purduehackers-api#readme",
   "dependencies": {
+    "airtable": "^0.11.6",
     "express": "^4.18.2"
   },
   "devDependencies": {
