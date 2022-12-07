@@ -15,8 +15,7 @@ class EventsController {
 
   public async getAllEvents(req: Request, res: Response) {
     let test = await fetchEvents();
-    console.log(test)
-    res.send('hi')
+    res.send(test)
   }
 }
 

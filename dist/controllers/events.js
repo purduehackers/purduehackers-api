@@ -23,8 +23,7 @@ class EventsController {
     getAllEvents(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let test = yield (0, fetchEvents_1.fetchEvents)();
-            console.log(test);
-            res.send('hi');
+            res.send(test);
         });
     }
 }

@@ -16,7 +16,6 @@ function fetchEvents() {
         return new Promise((resolve, reject) => {
             const events = [];
             events_1.eventTable.select({
-                maxRecords: 3,
                 sort: [
                     { field: 'Event Date & End Time', direction: 'desc' },
                 ],
@@ -32,23 +31,31 @@ function fetchEvents() {
         {Recap Images}
       )`
             }).eachPage(function page(records, fetchNextPage) {
-                var _a;
                 for (const record of records) {
                     const eventDateStr = record.fields['Event Date & Start Time'];
                     const eventDate = new Date(eventDateStr);
-                    const recapImg = (_a = record.fields['Recap Images']) !== null && _a !== void 0 ? _a : [];
+                    const recapImgs = record.fields['Recap Images'];
                     let participantCount = "";
+                    const processedRecapImgs = [];
                     for (let statNum = 0; statNum < 3; statNum++) {
                         if (record.fields['Stat ' + statNum + ' Label'] === 'people') {
                             participantCount = record.fields['Stat ' + statNum + ' Data'];
                         }
                     }
+                    for (let recapImg of recapImgs) {
+                        const processedRecapImg = recapImg;
+                        processedRecapImgs.push({
+                            height: processedRecapImg.height,
+                            width: processedRecapImg.width,
+                            url: processedRecapImg.url
+                        });
+                    }
                     events.push({
                         name: record.fields['Event Name'],
                         date: eventDate,
                         description: record.fields['Past Event Description'],
-                        rsvp: participantCount,
-                        // img: recapImg,
+                        participants: participantCount,
+                        recapImg: processedRecapImgs,
                         location: record.fields['Event Location'],
                     });
                 }

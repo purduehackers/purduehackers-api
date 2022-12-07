@@ -1,12 +1,10 @@
-interface IImgArray {
-  [index: number]: {};
-}
+import IImgArray from "./IImgArray"
 
 export default interface IEvent {
   name: string
   date: Date
   description: string
-  rsvp: string
-  // [img: number]: {},
+  participants: string
+  recapImg: IImgArray
   location: string
 }

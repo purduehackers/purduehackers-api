@@ -1,11 +1,16 @@
 import { eventTable, eventBase } from '../db/events'
 import IEvent from './interfaces/IEvent'
 
+interface IImg {
+  width: number,
+  height: number,
+  url: string,
+}
+
 export async function fetchEvents(): Promise<IEvent[]> {
   return new Promise((resolve, reject) => {
     const events:IEvent[] = [];
     eventTable.select({
-      maxRecords:3,
       sort: [
         {field: 'Event Date & End Time', direction: 'desc'},
       ],
@@ -24,21 +29,33 @@ export async function fetchEvents(): Promise<IEvent[]> {
       for (const record of records) {
         const eventDateStr = record.fields['Event Date & Start Time'] as string
         const eventDate = new Date(eventDateStr)
-        const recapImg = record.fields['Recap Images'] ?? []
+        const recapImgs = record.fields['Recap Images'] as []
         let participantCount = "";
+        const processedRecapImgs = [];
         
         for (let statNum = 0; statNum < 3; statNum++) {
           if (record.fields['Stat ' + statNum + ' Label'] === 'people') {
             participantCount = record.fields['Stat ' + statNum + ' Data'] as string
           }
         }
+
+        for (let recapImg of recapImgs)
+        {
+          const processedRecapImg:IImg = recapImg;
+          processedRecapImgs.push({
+            height: processedRecapImg.height,
+            width: processedRecapImg.width,
+            url: processedRecapImg.url
+          })
+        }
+
         events.push(
           {
             name: record.fields['Event Name'] as string,
             date: eventDate,
             description: record.fields['Past Event Description'] as string,
-            rsvp: participantCount,
-            // img: recapImg,
+            participants: participantCount,
+            recapImg: processedRecapImgs,
             location: record.fields['Event Location'] as string,
           }
         )
