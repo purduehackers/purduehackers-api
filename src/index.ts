@@ -10,7 +10,7 @@ import EventsController from "../controllers/events"
 
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || "8080";;
 
 app.use(logger)
 app.use(bodyParser.json())
@@ -20,7 +20,7 @@ const eventsController = new EventsController();
 app.use('/', eventsController.router);
 
 app.get("/", ( req, res ) => {
-    res.send( "Hello world! hi" );
+    res.send("Welcome to Purdue Hackers' api");
 } );
 
 app.get("/hello", ( req, res ) => {
