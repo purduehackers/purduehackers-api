@@ -14,7 +14,7 @@ class EventsController {
   }
 
   public async getAllEvents(req: Request, res: Response) {
-    let test = await fetchEvents();
+    let test = await fetchEvents(req.body.filterString);
     res.send(test)
   }
 }

@@ -23,10 +23,6 @@ app.get("/", ( req, res ) => {
     res.send("Welcome to Purdue Hackers' api");
 } );
 
-app.get("/hello", ( req, res ) => {
-    res.send( "Hello world!" );
-} );
-
 app.listen(port, () => {
     console.log( `server started at http://localhost:${ port }` );
 } );

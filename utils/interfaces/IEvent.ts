@@ -5,6 +5,6 @@ export default interface IEvent {
   date: Date
   description: string
   participants: string
-  recapImg: IImgArray
+  recapImg?: IImgArray
   location: string
 }

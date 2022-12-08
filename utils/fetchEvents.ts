@@ -7,7 +7,7 @@ interface IImg {
   url: string,
 }
 
-export async function fetchEvents(): Promise<IEvent[]> {
+export async function fetchEvents(filterString: string): Promise<IEvent[]> {
   return new Promise((resolve, reject) => {
     const events:IEvent[] = [];
     eventTable.select({
@@ -15,21 +15,15 @@ export async function fetchEvents(): Promise<IEvent[]> {
         {field: 'Event Date & End Time', direction: 'desc'},
       ],
       filterByFormula: `
-      AND(
-        {Unlisted} = 0,
-        NOT(FIND("Hack Night", {Event Name})),
-        OR(
-          {Stat 1 Label} = "people",
-          {Stat 2 Label} = "people",
-          {Stat 3 Label} = "people"
-        ),
-        {Recap Images}
-      )`
+        AND(
+          {Unlisted} = 0
+          ${filterString ? ',' + filterString : ''}
+        )`
     }).eachPage(function page(records, fetchNextPage) {
       for (const record of records) {
         const eventDateStr = record.fields['Event Date & Start Time'] as string
         const eventDate = new Date(eventDateStr)
-        const recapImgs = record.fields['Recap Images'] as []
+        const recapImgs = record.fields['Recap Images'] as [] ?? []
         let participantCount = "";
         const processedRecapImgs = [];
         
