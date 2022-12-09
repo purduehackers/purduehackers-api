@@ -23,8 +23,8 @@ class EventsController {
           return res.status(400).send(`Invalid select JSON`);
         }
       }
-      let test = await fetchEvents(select);
-      res.json(test);
+      let events = await fetchEvents(select);
+      res.json(events);
     } catch (err) {
       return res
         .status(err.statusCode || 500)
