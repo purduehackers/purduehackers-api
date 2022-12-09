@@ -17,12 +17,16 @@ class EventsController {
     try {
       let select = {};
       if (req.body.select) {
-        select = JSON.parse(req.body.select);
+        try {
+          select = JSON.parse(req.body.select);
+        } catch (err) {
+          return res.status(400).send(`Bad select JSON`);
+        }
       }
       let test = await fetchEvents(select);
       res.json(test);
     } catch (err) {
-      res
+      return res
         .status(err.statusCode || 500)
         .send(
           `Error fetching events:\nError: ${err.error}\nMessage: ${err.message}`
