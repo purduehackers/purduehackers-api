@@ -20,7 +20,7 @@ class EventsController {
         try {
           select = JSON.parse(req.body.select);
         } catch (err) {
-          return res.status(400).send(`Bad select JSON`);
+          return res.status(400).send(`Invalid select JSON`);
         }
       }
       let test = await fetchEvents(select);
