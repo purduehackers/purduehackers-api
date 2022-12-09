@@ -25,6 +25,8 @@ COPY . .
 RUN yarn install && yarn run build
 FROM debian:bullseye
 
+COPY . .
+
 LABEL fly_launch_runtime="nodejs"
 
 COPY --from=builder /root/.volta /root/.volta
