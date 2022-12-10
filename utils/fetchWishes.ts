@@ -1,21 +1,18 @@
-import { wishlistTable, wishlistBase } from '../db/wishlist'
-import IWish from './interfaces/IWish';
+import { FieldSet, Records } from "airtable";
+import { QueryParams } from "airtable/lib/query_params";
+import { wishlistTable } from "../db/wishlist";
 
-export async function fetchEvents(): Promise<IWish[]> {
+export async function fetchWishes(
+  select?: QueryParams<FieldSet>
+): Promise<Records<FieldSet>> {
   return new Promise((resolve, reject) => {
-    const wishes:IWish[] = [];
-    wishlistTable.select({
-      sort: [
-        {field: 'Event Date & End Time', direction: 'desc'},
-      ],
-    }).eachPage(function page(records, fetchNextPage) {
-      for (const record of records) {
-        
-      }
-      fetchNextPage();
-    }, function done(err) {
-      if (err) reject(err)
-      // resolve()
-    })
+    select.filterByFormula = select.filterByFormula
+      ? `${select.filterByFormula}`
+      : "";
+    wishlistTable
+      .select(select)
+      .all()
+      .then((wishes) => resolve(wishes))
+      .catch((err) => reject(err));
   });
 }
