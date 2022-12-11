@@ -3,7 +3,7 @@ dotenv.config();
 
 import express from "express";
 import bodyParser from "body-parser";
-
+import cors, { CorsOptions } from "cors";
 import { wishlistTable, wishlistBase } from "../db/wishlist";
 import logger from "../middleware/logger";
 import EventsController from "../controllers/events";
@@ -12,6 +12,12 @@ import WishlistController from "../controllers/wishlist";
 const app = express();
 const port = process.env.PORT || "8080";
 
+// const corsOptions: CorsOptions = {
+//   origin: *,
+//   credentials: true,
+// };
+
+app.use(cors());
 app.use(logger);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
