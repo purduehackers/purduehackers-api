@@ -6,9 +6,9 @@ export async function fetchWishes(
   select?: QueryParams<FieldSet>
 ): Promise<Records<FieldSet>> {
   return new Promise((resolve, reject) => {
-    select.filterByFormula = select.filterByFormula
-      ? `${select.filterByFormula}`
-      : "";
+    select.filterByFormula = `AND({Unlisted} = 0 ${
+      select.filterByFormula ? `, ${select.filterByFormula}` : ""
+    })`;
     wishlistTable
       .select(select)
       .all()

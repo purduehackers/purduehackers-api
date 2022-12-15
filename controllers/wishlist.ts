@@ -16,15 +16,15 @@ class wishlistController {
   public async getAllWishes(req: Request, res: Response) {
     try {
       let select = {};
-      if (req.body.select) {
+      if (req.query.select) {
         try {
-          select = JSON.parse(req.body.select);
+          select = JSON.parse((req.query as any).select);
         } catch (err) {
           return res.status(400).send(`Invalid select JSON`);
         }
       }
-      let events = await fetchWishes(select);
-      res.json(events);
+      let wishes = await fetchWishes(select);
+      res.json(wishes);
     } catch (err) {
       return res
         .status(err.statusCode || 500)
